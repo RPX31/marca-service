@@ -1,5 +1,4 @@
 package com.gestorprodutos.marca.domain.repository;
-
 import com.gestorprodutos.marca.domain.entity.Marca;
 import org.springframework.data.jpa.repository.JpaRepository;
 

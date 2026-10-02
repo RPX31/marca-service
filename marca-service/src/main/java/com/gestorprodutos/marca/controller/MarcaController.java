@@ -1,12 +1,12 @@
 package com.gestorprodutos.marca.controller;
 
-import com.gestorprodutos.marca.domain.entity.Marca;
+import com.gestorprodutos.marca.dto.request.MarcaRequestDTO;
+import com.gestorprodutos.marca.dto.response.MarcaResponseDTO;
 import com.gestorprodutos.marca.service.MarcaService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +20,7 @@ public class MarcaController {
     private final MarcaService marcaService;
 
     @GetMapping
-    public ResponseEntity<List<Marca>> listar() {
+    public ResponseEntity<List<MarcaResponseDTO>> listar() {
 
         return ResponseEntity.ok(
                 marcaService.listarTodos()
@@ -28,7 +28,7 @@ public class MarcaController {
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<List<Marca>> buscarPorNome(
+    public ResponseEntity<List<MarcaResponseDTO>> buscarPorNome(
             @RequestParam String nome) {
 
         return ResponseEntity.ok(
@@ -37,32 +37,31 @@ public class MarcaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Marca> buscarPorId(
+    public ResponseEntity<MarcaResponseDTO> buscarPorId(
             @PathVariable Long id) {
 
-        return ResponseEntity.ok(
-                marcaService.buscarPorId(id)
-        );
+        MarcaResponseDTO marca =
+                marcaService.buscarPorId(id);
+
+        return ResponseEntity.ok(marca);
     }
 
     @PostMapping
-    public ResponseEntity<Marca> salvar(
-            @Valid @RequestBody Marca marca) {
+    public ResponseEntity<MarcaResponseDTO> salvar(
+            @Valid @RequestBody MarcaRequestDTO request) {
 
-        Marca marcaSalva = marcaService.salvar(marca);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(marcaSalva);
+        return ResponseEntity.ok(
+                marcaService.salvar(request)
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Marca> atualizar(
+    public ResponseEntity<MarcaResponseDTO> atualizar(
             @PathVariable Long id,
-            @Valid @RequestBody Marca marca) {
+            @Valid @RequestBody MarcaRequestDTO request) {
 
         return ResponseEntity.ok(
-                marcaService.atualizar(id, marca)
+                marcaService.atualizar(id, request)
         );
     }
 
