@@ -1,3 +1,4 @@
+
 package com.gestorprodutos.marca.service;
 
 import com.gestorprodutos.marca.domain.entity.Marca;
@@ -8,9 +9,7 @@ import com.gestorprodutos.marca.exception.BusinessException;
 import com.gestorprodutos.marca.exception.ResourceInUseException;
 import com.gestorprodutos.marca.exception.ResourceNotFoundException;
 import com.gestorprodutos.marca.infrastructure.restClient.ProdutoRestClient;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,8 +53,8 @@ public class MarcaService {
 
         validarNomeDuplicado(request.nome(), null);
 
-        Marca marca = new Marca();
-        marca.setNome(request.nome());
+        // ALTERAÇÃO: cria a entidade utilizando o construtor que recebe o DTO.
+        Marca marca = new Marca(request);
 
         Marca marcaSalva = marcaRepository.save(marca);
 
@@ -65,7 +64,8 @@ public class MarcaService {
     @Transactional
     public MarcaResponseDTO atualizar(
             Long id,
-            MarcaRequestDTO request) {
+            MarcaRequestDTO request
+    ) {
 
         Marca marcaExistente = buscarEntidadePorId(id);
 

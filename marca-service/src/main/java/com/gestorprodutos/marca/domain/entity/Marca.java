@@ -1,5 +1,7 @@
+
 package com.gestorprodutos.marca.domain.entity;
 
+import com.gestorprodutos.marca.dto.request.MarcaRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,4 +28,8 @@ public class Marca {
     )
     @Column(unique = true)
     private String nome;
+
+    public Marca(MarcaRequestDTO request) {
+        this.nome = request.nome();
+    }
 }
